@@ -171,39 +171,44 @@
             <div class="success" id="successMessage"></div>
             <a href="registration.html" color="#fff">Don't have an account </a>
         </form>
+        <div id="errorMessage"></div>
+        <div id="successMessage"></div>
     </div>
     <script>
         document.getElementById('signInForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-
+    
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
+    
             // Clear previous messages
             document.getElementById('errorMessage').textContent = '';
             document.getElementById('successMessage').textContent = '';
-
+    
             try {
-                const response = await fetch('http://localhost:2000/signin', {
+                // Update to the correct port number (2001)
+                const response = await fetch('http://localhost:2004/signin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ email, password })
                 });
-
+    
                 const data = await response.json();
-
+    
                 if (response.ok) {
                     document.getElementById('successMessage').textContent = data.message || 'Logged in successfully!';
                 } else {
                     document.getElementById('errorMessage').textContent = data.error || 'Login failed. Please try again.';
                 }
-
+    
             } catch (error) {
                 document.getElementById('errorMessage').textContent = 'Error connecting to server';
+                console.error('Error:', error); // Log the error for debugging
             }
         });
     </script>
+    
 </body>
 </html>
